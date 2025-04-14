@@ -68,6 +68,19 @@ img {
 .section-header {
     text-align: center;
     margin-bottom: 60px;
+    position: relative;
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--gradient-accent);
+    border-radius: 3px;
 }
 
 .section-header h2 {
@@ -205,7 +218,7 @@ nav {
 .hero {
     padding-top: 150px;
     padding-bottom: 100px;
-    background: var(--gradient-3);
+    background: linear-gradient(135deg, rgba(0, 184, 212, 0.1) 0%, rgba(0, 184, 212, 0.05) 100%);
     position: relative;
     overflow: hidden;
 }
@@ -298,13 +311,18 @@ nav {
     animation: wave 8s linear infinite reverse;
 }
 
-/* About Section */
-.about {
-    background: var(--gradient-2);
+/* About, Benefits, and Roadmap Sections */
+.about,
+.benefits,
+.roadmap {
+    background: linear-gradient(135deg, rgba(213, 0, 249, 0.1) 0%, rgba(213, 0, 249, 0.05) 100%);
     position: relative;
+    overflow: hidden;
 }
 
-.about::before {
+.about::before,
+.benefits::before,
+.roadmap::before {
     content: '';
     position: absolute;
     top: 0;
@@ -312,42 +330,64 @@ nav {
     width: 100%;
     height: 100%;
     background: 
-        linear-gradient(45deg, rgba(0, 184, 212, 0.08) 25%, transparent 25%),
-        linear-gradient(-45deg, rgba(213, 0, 249, 0.08) 25%, transparent 25%);
-    background-size: 60px 60px;
-    opacity: 0.8;
+        radial-gradient(circle at 20% 20%, rgba(213, 0, 249, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 184, 212, 0.1) 0%, transparent 50%);
+    pointer-events: none;
     z-index: 0;
+    animation: gradientMove 15s ease infinite;
+}
+
+.about .container,
+.benefits .container,
+.roadmap .container {
+    position: relative;
+    z-index: 1;
 }
 
 .about-content {
     display: flex;
     align-items: center;
     gap: 50px;
+    position: relative;
+    z-index: 1;
 }
 
 .about-text {
     flex: 1;
+    position: relative;
 }
 
 .about-text p {
     margin-bottom: 20px;
     font-size: 1.1rem;
     color: #555;
+    position: relative;
+    padding-left: 20px;
+    border-left: 3px solid var(--primary-color);
+    transition: var(--transition);
+}
+
+.about-text p:hover {
+    border-left-color: var(--secondary-color);
+    transform: translateX(5px);
 }
 
 .about-image {
     flex: 1;
     position: relative;
+    perspective: 1000px;
 }
 
 .about-image img {
     border-radius: 20px;
     box-shadow: var(--box-shadow);
     transition: var(--transition);
+    transform-style: preserve-3d;
 }
 
 .about-image:hover img {
-    transform: scale(1.02);
+    transform: rotateY(5deg) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 184, 212, 0.3);
 }
 
 .image-caption {
@@ -355,21 +395,62 @@ nav {
     margin-top: 15px;
     font-style: italic;
     color: #777;
+    position: relative;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(0);
+    transition: var(--transition);
+}
+
+.image-caption:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .stats-container {
     display: flex;
     justify-content: space-between;
     margin-top: 40px;
+    gap: 20px;
 }
 
 .stat-item {
     text-align: center;
-    padding: 20px;
-    background: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+    flex: 1;
+}
+
+.stat-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--gradient-accent);
+    opacity: 0;
+    transition: var(--transition);
+    z-index: 0;
+}
+
+.stat-item:hover::before {
+    opacity: 0.1;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 184, 212, 0.2);
+    border-color: rgba(0, 184, 212, 0.3);
 }
 
 .stat-item h3 {
@@ -379,16 +460,22 @@ nav {
     background-clip: text;
     color: transparent;
     margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+    animation: countUp 2s ease-out;
 }
 
 .stat-item p {
     margin-bottom: 0;
     color: #666;
+    position: relative;
+    z-index: 1;
+    font-weight: 500;
 }
 
 /* Technology Section */
 .technology {
-    background: var(--gradient-3);
+    background: linear-gradient(135deg, rgba(0, 184, 212, 0.1) 0%, rgba(0, 184, 212, 0.05) 100%);
     position: relative;
     overflow: hidden;
 }
@@ -463,11 +550,6 @@ nav {
 }
 
 /* Benefits Section */
-.benefits {
-    background: var(--gradient-2);
-    position: relative;
-}
-
 .benefits-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -475,14 +557,15 @@ nav {
 }
 
 .benefit-card {
-    background: #fff;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: var(--box-shadow);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
     text-align: center;
     position: relative;
     overflow: hidden;
+    border-radius: 15px;
 }
 
 .benefit-card::before {
@@ -502,8 +585,9 @@ nav {
 }
 
 .benefit-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 184, 212, 0.2);
+    border-color: rgba(0, 184, 212, 0.3);
 }
 
 .benefit-icon {
@@ -532,7 +616,7 @@ nav {
 
 /* Team Section */
 .team {
-    background: var(--gradient-3);
+    background: linear-gradient(135deg, rgba(0, 184, 212, 0.1) 0%, rgba(0, 184, 212, 0.05) 100%);
     position: relative;
 }
 
@@ -630,11 +714,6 @@ nav {
 }
 
 /* Roadmap Section */
-.roadmap {
-    background: var(--gradient-2);
-    position: relative;
-}
-
 .timeline {
     position: relative;
     max-width: 800px;
@@ -706,12 +785,14 @@ nav {
 }
 
 .timeline-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .timeline-content::before {
@@ -734,7 +815,7 @@ nav {
 
 /* Contact Section */
 .contact {
-    background: var(--gradient-3);
+    background: linear-gradient(135deg, rgba(0, 184, 212, 0.1) 0%, rgba(0, 184, 212, 0.05) 100%);
     position: relative;
 }
 
@@ -973,14 +1054,15 @@ footer {
 }
 
 .benefit-card {
-    background: #fff;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: var(--box-shadow);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     transition: var(--transition);
     text-align: center;
     position: relative;
     overflow: hidden;
+    border-radius: 15px;
 }
 
 .benefit-card::before {
@@ -1025,12 +1107,14 @@ footer {
 }
 
 .timeline-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: var(--box-shadow);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
     position: relative;
     overflow: hidden;
+    padding: 20px;
+    border-radius: 10px;
 }
 
 .timeline-content::before {
@@ -1165,5 +1249,37 @@ footer {
     .btn-primary, .btn-secondary {
         padding: 10px 20px;
         font-size: 0.9rem;
+    }
+}
+
+@keyframes patternMove {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 60px 60px;
+    }
+}
+
+@keyframes countUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 0%;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0% 0%;
     }
 }
